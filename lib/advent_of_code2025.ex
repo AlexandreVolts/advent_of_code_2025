@@ -1,0 +1,54 @@
+defmodule AdventOfCode2025 do
+  use Application
+
+  def read_file(file_name) do
+    {:ok, file} = File.open(file_name, [:read])
+    content = IO.read(file, :eof)
+    File.close(file)
+
+    String.split(content, "\n")
+  end
+
+  def run_function({func, index}) do
+    output = AdventOfCode2025.read_file("assets/#{div(index, 2)}.txt") |> func.()
+    IO.puts("Exercise #{div(index, 2)}-#{rem(index, 2) + 1}: #{output}")
+  end
+
+  @spec main([non_neg_integer()]) :: :ok
+  def main(exercises) do
+    functions = [&Exercise0.ex1/1]
+
+    functions
+    |> Enum.with_index()
+    |> Enum.filter(fn {_func, index} ->
+      length(exercises) === 0 or Enum.member?(exercises, div(index, 2))
+    end)
+    |> Enum.each(&AdventOfCode2025.run_function/1)
+  end
+
+  defp parse_args(args) do
+    {opts, word, _} = args |> OptionParser.parse(switches: [exercises: :boolean])
+
+    if !opts[:exercises] do
+      []
+    else
+      hd(word)
+      |> String.replace(" ", "")
+      |> String.split(",")
+      |> Enum.map(fn pair -> pair |> Utils.str_to_integer_list("-") end)
+      |> Enum.map(fn pair ->
+        if length(pair) === 2 do
+          Enum.to_list(hd(pair)..hd(tl(pair)))
+        else
+          pair
+        end
+      end)
+      |> Enum.reduce([], fn array, acc -> acc ++ array end)
+    end
+  end
+
+  def start(_type, args) do
+    parse_args(args) |> main()
+    Supervisor.start_link([], strategy: :one_for_one)
+  end
+end
