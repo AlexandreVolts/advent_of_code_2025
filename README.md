@@ -1,6 +1,6 @@
-# AdventOfCode2024
+# AdventOfCode2025
 
-My advent of code 2024 in Elixir.
+My advent of code 2025 in Elixir.
 
 ## Commands
 

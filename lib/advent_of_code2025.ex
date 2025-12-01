@@ -16,7 +16,7 @@ defmodule AdventOfCode2025 do
 
   @spec main([non_neg_integer()]) :: :ok
   def main(exercises) do
-    functions = [&Exercise0.ex1/1]
+    functions = [&Exercise0.ex1/1, &Exercise0.ex2/1]
 
     functions
     |> Enum.with_index()

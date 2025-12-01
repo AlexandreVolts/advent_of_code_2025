@@ -1,6 +1,9 @@
 defmodule Utils do
   @type non_neg_vector() :: {non_neg_integer(), non_neg_integer()}
 
+  @spec last(list(any())) :: any()
+  def last(list), do: list |> Enum.reverse() |> hd()
+
   @spec at([String.t()], integer(), integer()) :: String.t() | nil
   def at(lines, x, y) do
     if Utils.is_outside?(lines, x, y) do
