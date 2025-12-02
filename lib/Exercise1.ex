@@ -14,11 +14,29 @@ defmodule Exercise1 do
     left === right
   end
 
-  @spec get_invalid_ids_sum(list(String.t())) :: list(String.t())
-  defp get_invalid_ids_sum(range) do
+  @spec get_invalid_ids_sum_ex01(list(String.t())) :: list(String.t())
+  defp get_invalid_ids_sum_ex01(range) do
     range
     |> Enum.filter(fn x -> x |> String.length() |> rem(2) === 0 end)
     |> Enum.filter(&is_id_invalid_ex01?/1)
+    |> Enum.reduce(0, fn str, acc -> acc + String.to_integer(str) end)
+  end
+
+  @spec is_id_invalid_ex02?(String.t()) :: boolean()
+  defp is_id_invalid_ex02?(id) do
+    if (String.length(id) === 1) do
+      false
+    else
+      (id <> id)
+      |> String.slice(1..(String.length(id) * 2 - 2))
+      |> String.contains?(id)
+    end
+  end
+
+  @spec get_invalid_ids_sum_ex02(list(String.t())) :: list(String.t())
+  defp get_invalid_ids_sum_ex02(range) do
+    range
+    |> Enum.filter(&is_id_invalid_ex02?/1)
     |> Enum.reduce(0, fn str, acc -> acc + String.to_integer(str) end)
   end
 
@@ -29,7 +47,7 @@ defmodule Exercise1 do
     |> String.split(",")
     |> Enum.map(fn str -> str |> String.split("-") end)
     |> Enum.map(&generate_sequence/1)
-    |> Enum.map(&get_invalid_ids_sum/1)
+    |> Enum.map(&get_invalid_ids_sum_ex01/1)
     |> Enum.reduce(0, fn x, acc -> acc + x end)
   end
 
@@ -40,6 +58,7 @@ defmodule Exercise1 do
     |> String.split(",")
     |> Enum.map(fn str -> str |> String.split("-") end)
     |> Enum.map(&generate_sequence/1)
-    0
+    |> Enum.map(&get_invalid_ids_sum_ex02/1)
+    |> Enum.reduce(0, fn x, acc -> acc + x end)
   end
 end
