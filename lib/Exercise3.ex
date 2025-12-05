@@ -48,8 +48,7 @@ defmodule Exercise3 do
         ) :: boolean()
   defp is_roll_position_accessible_by_forklift?(positions, {x, y}) do
     positions
-    |> Enum.filter(fn {other_x, other_y} -> abs(other_x - x) <= 1 && abs(other_y - y) <= 1 end)
-    |> length() < 5
+    |> Enum.count(fn {other_x, other_y} -> abs(other_x - x) <= 1 && abs(other_y - y) <= 1 end) < 5
   end
 
   @spec remove_rolls(list(Utils.non_neg_vector())) :: non_neg_integer()
@@ -73,8 +72,7 @@ defmodule Exercise3 do
   def ex1(lines) do
     lines
     |> get_roll_indexes()
-    |> Enum.filter(fn index -> is_roll_accessible_by_forklift?(lines, index) end)
-    |> length()
+    |> Enum.count(fn index -> is_roll_accessible_by_forklift?(lines, index) end)
   end
 
   @spec ex2(list(String.t())) :: integer()

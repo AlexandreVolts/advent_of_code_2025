@@ -21,8 +21,7 @@ defmodule Exercise0 do
     |> Enum.reduce([50], fn line, acc ->
       acc ++ [Utils.last(acc) |> rotate_dial(get_dial_rotation(line))]
     end)
-    |> Enum.filter(fn x -> x === 0 end)
-    |> length()
+    |> Enum.count(fn x -> x === 0 end)
   end
 
   @spec ex2(list(String.t())) :: integer()

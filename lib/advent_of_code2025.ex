@@ -20,7 +20,8 @@ defmodule AdventOfCode2025 do
       &Exercise0.ex1/1, &Exercise0.ex2/1,
       &Exercise1.ex1/1, &Exercise1.ex2/1,
       &Exercise2.ex1/1, &Exercise2.ex2/1,
-      &Exercise3.ex1/1, &Exercise3.ex2/1
+      &Exercise3.ex1/1, &Exercise3.ex2/1,
+      &Exercise4.ex1/1, &Exercise4.ex2/1,
     ]
 
     functions

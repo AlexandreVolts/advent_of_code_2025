@@ -13,7 +13,7 @@ defmodule AdventOfCode2025.MixProject do
 
   def application do
     [
-      mod: {AdventOfCode2025, ["--exercises", "2-3"]},
+      mod: {AdventOfCode2025, ["--exercises", "4"]},
       extra_applications: [:logger]
     ]
   end
