@@ -29,6 +29,7 @@ defmodule Exercise4 do
   @spec ex1(list(String.t())) :: integer()
   def ex1(lines) do
     ranges = lines |> get_ranges()
+
     lines
     |> get_available_ingredients()
     |> Enum.count(fn ingredient -> is_in_range?(ranges, ingredient) end)
