@@ -18,7 +18,13 @@ defmodule Exercise5 do
     |> Enum.filter(fn line -> line |> String.at(index) !== " " end)
     |> Enum.map(fn line -> line |> String.at(index) |> String.to_integer() end)
     |> Enum.with_index()
-    |> Enum.reduce(0, fn {digit, index}, acc -> acc + digit * :math.pow(10, index) end)
+    |> Enum.reduce(0, fn {digit, index}, acc -> acc + floor(digit * :math.pow(10, index)) end)
+  end
+
+  @spec compute_operator_on_integer_array(list(non_neg_integer()), operator()) ::
+          non_neg_integer()
+  defp compute_operator_on_integer_array(array, operator) do
+    array |> tl() |> Enum.reduce(array |> hd(), fn x, acc -> operator.(x, acc) end)
   end
 
   @spec ex1(list(String.t())) :: integer()
@@ -41,12 +47,20 @@ defmodule Exercise5 do
   def ex2(lines) do
     operators = lines |> Utils.last() |> String.split(" ", trim: true)
 
-    numbers =
-      lines
-      |> hd()
-      |> String.split("", trim: true)
-      |> Enum.with_index()
-      |> Enum.map(fn {_char, index} -> get_number_in_col(lines |> Utils.pop(), index) end)
-    0
+    lines
+    |> hd()
+    |> String.split("", trim: true)
+    |> Enum.with_index()
+    |> Enum.map(fn {_char, index} -> get_number_in_col(lines |> Utils.pop(), index) end)
+    |> Enum.chunk_by(fn x -> x === 0 end)
+    |> Enum.filter(fn x -> x |> hd() !== 0 end)
+    |> Enum.with_index()
+    |> Enum.reduce(0, fn {array, index}, acc ->
+      acc +
+        compute_operator_on_integer_array(
+          array,
+          if(operators |> Enum.at(index) === "*", do: &*/2, else: &+/2)
+        )
+    end)
   end
 end
